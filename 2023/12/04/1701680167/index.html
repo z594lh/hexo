@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://bu.dusays.com/2023/12/04/656d994f67c79.png">
 <meta property="og:image" content="https://bu.dusays.com/2023/12/04/656d994f5dfcc.jpg">
 <meta property="article:published_time" content="2023-12-04T09:30:27.000Z">
-<meta property="article:modified_time" content="2023-12-04T10:07:36.384Z">
+<meta property="article:modified_time" content="2023-12-05T02:01:33.882Z">
 <meta property="article:author" content="zhongyw">
 <meta property="article:tag" content="pt">
 <meta name="twitter:card" content="summary">
@@ -115,7 +115,7 @@
 <span id="more"></span>
 
 
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><details class="tag-plugin folding" color="yellow" child="codeblock" open><summary><span>部署前提</span></summary><div class="body"><p><mark class="tag-plugin mark" color="warning">如果你没有静态公网ip的话，需要一个VPS，没有的就别想了</mark></p></div></details>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><details class="tag-plugin folding" color="yellow" child="codeblock" open><summary><span>部署前提</span></summary><div class="body"><p><mark class="tag-plugin mark" color="warning">需要一个VPS代理转发</mark><br><mark class="tag-plugin mark" color="error">没有VPS的，如果ip变动了需要去微信后台改可信ip</mark></p></div></details>
 
 
 <h3 id="1-创建微信应用"><a href="#1-创建微信应用" class="headerlink" title="1.创建微信应用"></a>1.创建微信应用</h3><p>首先打开<a target="_blank" rel="noopener" href="https://work.weixin.qq.com/wework_admin/loginpage_wx?from=myhome">企业微信后台</a></p>
@@ -139,7 +139,10 @@
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://bu.dusays.com/2023/12/04/656d994f5dfcc.jpg" fancybox="true"/></div></div>
 
 
-<p>应用设置最下面的可信ip填写vps的ip</p>
+<mark class="tag-plugin mark" color="warning">应用管理界面最下面的可信ip填写vps的ip(不用VPS代理的，填公网ip地址，如果变化了就要及时更改可信ip)</mark>
+
+
+<p>没有VPS代理的，直接跳转<a href="#3-nt%E6%88%96%E8%80%85mp%E9%85%8D%E7%BD%AE%E4%BF%AE%E6%94%B9">第三步</a></p>
 <h3 id="2-VPS代理转发"><a href="#2-VPS代理转发" class="headerlink" title="2.VPS代理转发"></a>2.VPS代理转发</h3><p>如果你连SSH工具都不会使用，可以移步<a target="_blank" rel="noopener" href="https://hexo.zhongyuwen.cn/2023/11/10/seedbox/#1-ssh%E5%B7%A5%E5%85%B7">ssh工具</a></p>
 <p>ssh链接上VPS。输入以下代码，每输入一行，按一次回车等待执行完成之后复制下一个命令回车。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update &amp;&amp; apt-get upgrade -y</span><br></pre></td></tr></table></figure>
@@ -148,7 +151,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install nano -y</span><br></pre></td></tr></table></figure>
 <p>然后修改nginx配置文件,执行下面命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/nginx/sites-enabled/wechat</span><br></pre></td></tr></table></figure>
-<p>上面这个命令会打开一个界面。把下面的代码复制进去(记得修改自己的nas域名和端口)，<mark class="tag-plugin mark" color="warning">记得右键点粘贴进去。(ssh工具默认ctrl+c和ctrl+v不是复制粘贴。请用右键粘贴!!!)</mark></p>
+<p>上面这个命令会打开一个界面。把下面的代码(<mark class="tag-plugin mark" color="warning">记得修改自己的nas域名和端口</mark>)复制进去，<mark class="tag-plugin mark" color="warning">记得右键点粘贴进去。(ssh工具默认ctrl+c和ctrl+v不是复制粘贴。请用右键粘贴!!!)</mark></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 5001;</span><br><span class="line"></span><br><span class="line">    location /cgi-bin/gettoken &#123;</span><br><span class="line">        proxy_pass https://qyapi.weixin.qq.com;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /cgi-bin/message/send &#123;</span><br><span class="line">        proxy_pass https://qyapi.weixin.qq.com;</span><br><span class="line">    &#125;</span><br><span class="line">    location /cgi-bin/menu/create &#123;</span><br><span class="line">        proxy_pass https://qyapi.weixin.qq.com;</span><br><span class="line">    &#125;</span><br><span class="line">    location /wechat &#123;</span><br><span class="line">        proxy_pass http://nas域名:nt端口;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后是保存配置文件。小白如果不会保存，按照我下面说的执行<br>ctrl+x，然后输入y,最后按回车就可以了</p>
 <p>重启nginx让配置文件生效</p>
@@ -156,7 +159,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable nginx</span><br></pre></td></tr></table></figure>
 <p>以上，就配置好了转发了。</p>
 <h3 id="3-nt或者mp配置修改"><a href="#3-nt或者mp配置修改" class="headerlink" title="3.nt或者mp配置修改"></a>3.nt或者mp配置修改</h3><p>企业ID对应上面截图的参数1<br>应用Secret对应上面截图的参数3<br>应用ID对应上面截图的参数2<br>剩下的回调页面的key和token也填进去</p>
-<p>重要的就是下面这两个：<br>消息推送代理填 <a target="_blank" rel="noopener" href="http://vpsip:5001/">http://vpsip:5001</a><br>企业微信回调地址填 <a target="_blank" rel="noopener" href="http://vpsip:5001/wechat">http://vpsip:5001/wechat</a></p>
+<p>重要的就是下面这两个：</p>
+<ul>
+<li><mark class="tag-plugin mark" color="warning">有VPS第二步配置了代理的这么填写</mark>
+<p>消息推送代理填 <a target="_blank" rel="noopener" href="http://vpsip:5001/">http://vpsip:5001</a><br>企业微信回调地址填 <a target="_blank" rel="noopener" href="http://vpsip:5001/wechat">http://vpsip:5001/wechat</a></p>
+</li>
+<li><mark class="tag-plugin mark" color="warning">没有VPS，没有配置代理的</mark>
+<p>消息推送代理填 <mark class="tag-plugin mark" color="error">不填</mark><br>企业微信回调地址填 <a href="http://nas动态公网ip:nastools端口号/wechat">http://nas动态公网ip:nastools端口号/wechat</a><br>(每次动态公网变化ip，都需要手动去微信后台添加可信ip)</p>
+</li>
+</ul>
 
 
 
